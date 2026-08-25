@@ -10,7 +10,7 @@ from services.ui_helpers import inject_css, hero, footer
 from services.gene_service import get_summary_stats
 
 st.set_page_config(
-    page_title="SorghumPost",
+    page_title="SorgGene",
     page_icon="figures/logo.png",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -19,7 +19,7 @@ st.set_page_config(
 inject_css()
 
 hero(
-    "SorghumPost",
+    "SorgGene",
     "Sorghum genomics toolkit -- built on Sorghumbase &amp; Phytozome data",
     icon="figures/logo.png",
     badges=["Sorghum bicolor", "BTx623 reference", "3 genotypes", "Runs locally"],
@@ -27,7 +27,7 @@ hero(
 
 with st.sidebar:
     st.image('figures/logo.png', width=60)
-    st.markdown("### SorghumPost")
+    st.markdown("### SorgGene")
     st.caption("A genomics lookup toolkit for *Sorghum bicolor*")
     st.divider()
     stats = get_summary_stats()
