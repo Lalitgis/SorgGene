@@ -22,12 +22,12 @@ inject_css()
 hero(
     "SorghumPost",
     "Sorghum genomics toolkit -- built on Sorghumbase &amp; Phytozome data",
-    icon="figure/logo.png",
+    icon="figures/logo.png",
     badges=["Sorghum bicolor", "BTx623 reference", "3 genotypes", "Runs locally"],
 )
 
 with st.sidebar:
-    st.image('figure/logo.png')
+    st.image('figures/logo.png', width=60)
     st.markdown("### SorghumPost")
     st.caption("A genomics lookup toolkit for *Sorghum bicolor*")
     st.divider()
