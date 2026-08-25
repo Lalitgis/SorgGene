@@ -6,7 +6,24 @@ injection, stat card grid, section headers, and CSV+Excel export widgets.
 Keeping these in one place is what makes the five tabs look like one
 product instead of five separate scripts.
 """
+import base64
+import os
 
+_IMAGE_EXTS = {".png": "png", ".jpg": "jpeg", ".jpeg": "jpeg", ".gif": "gif", ".webp": "webp", ".svg": "svg+xml"}
+
+
+def _icon_html(icon: str, height: str = "2.6rem") -> str:
+    """Render `icon` for use inside a raw-HTML block. If it looks like a path
+    to an image file that exists on disk, embed it as a base64 <img> tag
+    (st.markdown can't reference local file paths directly); otherwise treat
+    it as emoji/text and pass it through unchanged."""
+    ext = os.path.splitext(str(icon))[1].lower()
+    if ext in _IMAGE_EXTS and os.path.exists(icon):
+        mime = _IMAGE_EXTS[ext]
+        with open(icon, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode()
+        return f'<img src="data:image/{mime};base64,{b64}" style="height:{height};width:auto;display:block;" />'
+    return icon
 import io
 import streamlit as st
 import pandas as pd
@@ -171,7 +188,7 @@ def hero(title: str, subtitle: str, icon: str = "🌾", badges=None):
         ) + "</div>"
     st.markdown(f"""
     <div class="sp-hero">
-        <div class="sp-hero-icon">{icon}</div>
+        <div class="sp-hero-icon">{_icon_html(icon)}</div>
         <div>
             <p class="sp-hero-title">{title}</p>
             <p class="sp-hero-subtitle">{subtitle}</p>
