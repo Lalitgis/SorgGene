@@ -1,4 +1,4 @@
-# 🌾 SorghumPost
+# SorgGene
 
 **A genomics lookup toolkit for sorghum (*Sorghum bicolor*)**
 
@@ -18,7 +18,7 @@ Landing overview with stat cards (genes indexed, genotypes loaded, chromosomes, 
 ### 🔍 Gene Proximity Search
 Find all annotated BTx623 genes within a user-defined window (100 kb, 200 kb, or custom) around a chromosome:position of interest. Single-position lookups render an interactive visual gene track (position axis, query marker, overlap highlighting) in addition to the results table. Supports batch CSV upload for multiple positions at once.
 
-- Powered by Sorghumbase's BTx623 (`Sorghum_bicolor_NCBIv3`) gene annotation — 35,479 genes
+- Powered by SorghumBase's BTx623 (`Sorghum_bicolor_NCBIv3`) gene annotation — 35,479 genes
 - Highlights positions that fall directly inside a gene, in both the track diagram and the table
 - Clickable gene IDs link to both SorghumBase and Phytozome
 - CSV and formatted Excel (.xlsx) download
@@ -32,7 +32,7 @@ Look up a gene by either its SorghumBase/Ensembl ID (`SORBI_3001G000100`) or its
 Browse and filter the full 104,785-gene table across every loaded genotype — by genotype, chromosome, biotype, or a gene ID keyword search — for open-ended exploration rather than a targeted position or ID lookup. Sortable grid with clickable SorghumBase links, CSV/Excel export.
 
 ### 🔀 Cross-Genotype Comparison
-Sorghumbase hosts a pangenome of independently sequenced sorghum genotypes alongside BTx623. This tab compares which genes are annotated in the same chromosome:position window across multiple genotypes side by side — currently BTx623, Tx2783, and Rio — with a per-genotype visual gene track and a genes-found-per-genotype chart.
+SorghumBase hosts a pangenome of independently sequenced sorghum genotypes alongside BTx623. This tab compares which genes are annotated in the same chromosome: position window across multiple genotypes side by side — currently BTx623, Tx2783, and Rio — with a per-genotype visual gene track and a genes-found-per-genotype chart.
 
 - Unlike the other tabs, each genotype here is its own independent genome assembly, not a coordinate-lifted version of BTx623 — the UI flags this so results are read as an approximate regional comparison, not an exact liftover
 - CSV and formatted Excel (.xlsx) download
