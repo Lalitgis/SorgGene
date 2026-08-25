@@ -12,7 +12,7 @@ from services.gene_service import get_summary_stats
 
 st.set_page_config(
     page_title="SorghumPost",
-    page_icon="🌾",
+    page_icon=" ",
     layout="wide",
     initial_sidebar_state="expanded",
 )
