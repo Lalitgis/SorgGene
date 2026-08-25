@@ -1,4 +1,4 @@
-# 🌾 SorghumPost
+# SorghumPost
 
 **A genomics lookup toolkit for sorghum (*Sorghum bicolor*)**
 
