@@ -1,5 +1,5 @@
 """
-SorghumPost Setup Checker
+SorgGene Setup Checker
 ==========================
 Run this before starting the app to verify the database is present.
     python setup_data.py
@@ -14,7 +14,7 @@ EXPECTED_GENOTYPES = ["BTx623", "Tx2783", "Rio"]
 
 def check():
     print("\n" + "=" * 50)
-    print("SorghumPost - Setup Check")
+    print("SorgGene - Setup Check")
     print("=" * 50)
 
     if not os.path.exists(DB_PATH):
