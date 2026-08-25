@@ -180,7 +180,7 @@ def inject_css():
     """, unsafe_allow_html=True)
 
 
-def hero(title: str, subtitle: str, icon: str = "🌾", badges=None):
+def hero(title: str, subtitle: str, icon: str = "figures/logo.png", badges=None):
     badges_html = ""
     if badges:
         badges_html = '<div class="sp-hero-badges">' + "".join(
