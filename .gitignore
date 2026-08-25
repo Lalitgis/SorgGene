@@ -1,0 +1,7 @@
+.venv/
+data/
+*.gff3
+*.gff3.gz
+__pycache__/
+*.pyc
+.DS_Store
