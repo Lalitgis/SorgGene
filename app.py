@@ -12,7 +12,7 @@ from services.gene_service import get_summary_stats
 
 st.set_page_config(
     page_title="SorghumPost",
-    page_icon="🌾",
+    page_icon="figures/logo.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -22,12 +22,13 @@ inject_css()
 hero(
     "SorghumPost",
     "Sorghum genomics toolkit -- built on Sorghumbase &amp; Phytozome data",
-    icon="🌾",
+    icon="figure/logo.png",
     badges=["Sorghum bicolor", "BTx623 reference", "3 genotypes", "Runs locally"],
 )
 
 with st.sidebar:
-    st.markdown("### 🌾 SorghumPost")
+    st.image('figure/logo.png')
+    st.markdown("### SorghumPost")
     st.caption("A genomics lookup toolkit for *Sorghum bicolor*")
     st.divider()
 
