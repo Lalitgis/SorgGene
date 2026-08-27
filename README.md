@@ -1,161 +1,575 @@
 # SorgGene
+<p align="center">
+  <img src="figures/logo.png" alt="SorgGene logo" width="180">
+</p>
 
-**A genomics lookup toolkit for sorghum (*Sorghum bicolor*)**
+<h1 align="center"> SorgGene</h1>
 
-SorghumPost is an open-source Python web application for sorghum researchers who need fast, local, reference-aware tools for working with gene annotation across the Sorghumbase and Phytozome genome portals. Instead of manually browsing genome browsers or cross-referencing gene ID formats, SorghumPost provides a clean browser-based interface that runs locally on your machine.
+<p align="center">
+  <strong>A fast, reference-aware genomics toolkit for <i>Sorghum bicolor</i></strong>
+</p>
 
-Built for *Sorghum bicolor*, anchored on the BTx623 reference genome (Sorghumbase `Sorghum_bicolor_NCBIv3`, the same gene models as Phytozome `Sbicolor_v3.1.1`), with pangenome comparison across additional sequenced genotypes.
+<p align="center">
+  Sorghum gene annotation lookup · Genomic region analysis · Gene ID cross-reference · Pangenome comparison
+</p>
 
-It's a sibling project to [WheatPost](https://github.com/neupanebpn63/WheatPost), adapted to what Sorghumbase and Phytozome actually provide for sorghum — see [CREDITS.md](CREDITS.md) for the full data lineage and how the feature set differs from WheatPost's.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/Genes-104%2C785-orange" alt="104,785 genes">
+  <img src="https://img.shields.io/badge/Genotypes-3-brightgreen" alt="3 genotypes">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+</p>
+<p align="center">
+  <strong>Created and maintained by [Lalit BC](https://github.com/Lalitgis)</strong>
+</p>
+
+
+## What is SorgGene?
+
+SorgGene is designed for researchers working with:
+
+* 🌾 *Sorghum bicolor* genomics
+* 🧬 Gene annotation and genome annotation
+* 📍 GWAS and genomic marker analysis
+* 🔎 Candidate-gene discovery
+* 🧪 Comparative genomics
+* 🌱 Sorghum pangenomics
+* 🔗 SorghumBase ↔ Phytozome gene ID conversion
+* 📊 Batch genomic-region analysis
+* 🧬 Multi-genotype gene annotation comparison
+
+The primary reference is **BTx623**, using the SorghumBase `Sorghum_bicolor_NCBIv3` annotation, corresponding to the **Phytozome Sbicolor v3.1.1** gene models.
+
+Additional genotypes are retained as independent genome assemblies and can be explored through the cross-genotype comparison tools.
 
 ---
 
-## Features
+# ✨ Features
 
-### 📊 Dashboard
-Landing overview with stat cards (genes indexed, genotypes loaded, chromosomes, protein-coding genes), a genes-per-genotype chart, a biotype breakdown chart, and a per-chromosome gene density track — all interactive (Plotly).
+## 📊 1. Genomics Dashboard
 
-### 🔍 Gene Proximity Search
-Find all annotated BTx623 genes within a user-defined window (100 kb, 200 kb, or custom) around a chromosome:position of interest. Single-position lookups render an interactive visual gene track (position axis, query marker, overlap highlighting) in addition to the results table. Supports batch CSV upload for multiple positions at once.
+Get an immediate overview of the annotation database.
 
-- Powered by SorghumBase's BTx623 (`Sorghum_bicolor_NCBIv3`) gene annotation — 35,479 genes
-- Highlights positions that fall directly inside a gene, in both the track diagram and the table
-- Clickable gene IDs link to both SorghumBase and Phytozome
-- CSV and formatted Excel (.xlsx) download
+The interactive dashboard provides:
 
-**Paste a region directly** — got a significant interval straight out of a GWAS results table or Manhattan plot, like `Chr6:34,967,715..35,167,715`? Switch the input mode to **"Paste a region"** and paste it in as-is — no need to compute a midpoint or window size by hand. Accepted separators: `..`, `-`, `–`, or `to` (commas in the numbers are fine). Paste multiple regions, one per line, to search a batch at once, and optionally add flanking padding (in kb) to widen the search on both sides of each region. Each result row is flagged as "Fully within region" or "Overlaps region boundary."
+* Total genes indexed
+* Number of genotypes
+* Chromosome statistics
+* Protein-coding gene counts
+* Genes-per-genotype visualization
+* Biotype distribution
+* Per-chromosome gene density
+* Interactive Plotly visualizations
 
-### 🧬 Gene Info & ID Cross-Reference
-Look up a gene by either its SorghumBase/Ensembl ID (`SORBI_3001G000100`) or its Phytozome ID (`Sobic.001G000100`) — both refer to the same v3.1.1 gene model, so the cross-reference is exact rather than approximate. Returns coordinates, strand, biotype, and links to both databases. Supports single lookup and batch conversion from a pasted list or uploaded text file.
-
-### 🔎 Gene Explorer
-Browse and filter the full 104,785-gene table across every loaded genotype — by genotype, chromosome, biotype, or a gene ID keyword search — for open-ended exploration rather than a targeted position or ID lookup. Sortable grid with clickable SorghumBase links, CSV/Excel export.
-
-### 🔀 Cross-Genotype Comparison
-SorghumBase hosts a pangenome of independently sequenced sorghum genotypes alongside BTx623. This tab compares which genes are annotated in the same chromosome: position window across multiple genotypes side by side — currently BTx623, Tx2783, and Rio — with a per-genotype visual gene track and a genes-found-per-genotype chart.
-
-- Unlike the other tabs, each genotype here is its own independent genome assembly, not a coordinate-lifted version of BTx623 — the UI flags this so results are read as an approximate regional comparison, not an exact liftover
-- CSV and formatted Excel (.xlsx) download
+This provides a quick quality-control and database overview before starting an analysis.
 
 ---
 
-## Installation
+## 🔍 2. Gene Proximity & Region Search
 
-### Requirements
-- Python 3.10 or higher
-- Git
+Search for genes surrounding a genomic position or directly analyze a genomic interval.
 
-### Steps
+### Position-based search
 
-**1. Clone the repository**
-```bash
-git clone <your-repo-url>
-cd SorghumPost
+Enter:
+
+```text
+Chromosome:Position
 ```
 
-**2. Create and activate a virtual environment**
+For example:
+
+```text
+Chr6:34967715
+```
+
+Choose a predefined or custom search window:
+
+* 100 kb
+* 200 kb
+* Custom window
+
+SorgGene returns annotated BTx623 genes surrounding the query position.
+
+Single-position searches additionally generate an **interactive gene-track visualization** showing:
+
+* Gene coordinates
+* Query position
+* Overlapping genes
+* Strand information
+* Genomic position
+* Gene boundaries
+
+### Region-based search
+
+Paste a genomic interval directly:
+
+```text
+Chr6:34,967,715..35,167,715
+```
+
+Supported separators include:
+
+```text
+..
+-
+–
+to
+```
+
+Multiple regions can be supplied line-by-line for batch analysis.
+
+Optional **flanking padding** allows users to expand each region by a specified number of kilobases.
+
+Each result is classified as:
+
+* **Fully within region**
+* **Overlaps region boundary**
+
+### Batch analysis
+
+Upload a CSV containing multiple genomic positions or regions.
+
+Results can be exported as:
+
+* CSV
+* Formatted Excel `.xlsx`
+
+### Annotation source
+
+BTx623 annotation:
+
+```text
+SorghumBase: Sorghum_bicolor_NCBIv3
+Phytozome:   Sbicolor v3.1.1
+Genes:       35,479
+```
+
+---
+
+# 🧬 3. Gene Information & ID Cross-Reference
+
+SorgGene supports direct lookup using either major sorghum gene identifier format.
+
+### SorghumBase / Ensembl-style ID
+
+```text
+SORBI_3001G000100
+```
+
+### Phytozome ID
+
+```text
+Sobic.001G000100
+```
+
+Because these identifiers refer to the same **v3.1.1 gene models**, the conversion is an exact cross-reference rather than a coordinate-based approximation.
+
+For each gene, SorgGene provides:
+
+* Gene ID
+* Cross-referenced ID
+* Chromosome
+* Start position
+* End position
+* Strand
+* Biotype
+* SorghumBase link
+* Phytozome link
+
+### Batch ID conversion
+
+Users can paste multiple IDs or upload a text file to perform batch cross-referencing.
+
+---
+
+# 🌱 4. Gene Explorer
+
+The **Gene Explorer** provides open-ended access to the complete annotation database.
+
+Filter and search across **104,785 genes** using:
+
+* Genotype
+* Chromosome
+* Biotype
+* Gene ID
+* Keyword search
+
+The interactive table supports:
+
+* Sorting
+* Filtering
+* Clickable database links
+* CSV export
+* Excel export
+
+This is useful when you don't have a specific genomic position or gene ID and instead want to explore the annotation dataset systematically.
+
+---
+
+# 🔀 5. Cross-Genotype Comparison
+
+SorgGene includes comparative annotation data for:
+
+| Genotype   | Assembly                 |
+| ---------- | ------------------------ |
+| **BTx623** | `Sorghum_bicolor_NCBIv3` |
+| **Tx2783** | `CSHL-USDA-1.0`          |
+| **Rio**    | `JGI-v2.0`               |
+
+The tool displays genes found within a comparable chromosome/position window across the loaded genotypes.
+
+Each genotype receives:
+
+* Independent gene-track visualization
+* Gene annotation table
+* Gene count summary
+* CSV export
+* Excel export
+
+### ⚠️ Important interpretation
+
+These genomes are **independently assembled references**.
+
+The comparison is therefore a **regional annotation comparison**, not a coordinate liftover.
+
+SorgGene explicitly flags this distinction in the interface to help prevent overinterpretation of coordinate relationships between assemblies.
+
+---
+
+# 🗄️ Database
+
+SorgGene uses a local **SQLite annotation database** for fast querying.
+
+### Current database
+
+| Metric               |       Value |
+| -------------------- | ----------: |
+| Total genes          | **104,785** |
+| Genotypes            |       **3** |
+| Database             |      SQLite |
+| Database size        |      ~15 MB |
+| Reference genotype   |      BTx623 |
+| Additional genotypes | Tx2783, Rio |
+
+The pre-built database is included with the repository, allowing the application to run without downloading annotation files.
+
+---
+
+# 🧬 Data Sources
+
+The current database is generated from **SorghumBase GFF3 annotation files**.
+
+| Genotype | Source      | Assembly                 |
+| -------- | ----------- | ------------------------ |
+| BTx623   | SorghumBase | `Sorghum_bicolor_NCBIv3` |
+| Tx2783   | SorghumBase | `CSHL-USDA-1.0`          |
+| Rio      | SorghumBase | `JGI-v2.0`               |
+
+BTx623 corresponds to the **Phytozome Sbicolor v3.1.1 gene models**.
+
+For complete attribution, data lineage, and source publications, see [`CREDITS.md`](CREDITS.md).
+
+---
+
+# ⚡ Architecture
+
+SorgGene is intentionally lightweight and designed to run locally.
+
+```text
+                    ┌─────────────────────┐
+                    │   Streamlit Web UI  │
+                    └──────────┬──────────┘
+                               │
+             ┌─────────────────┼─────────────────┐
+             │                 │                 │
+       Gene Search       Gene Information   Comparative
+       & Regions          & ID Mapping       Genomics
+             │                 │                 │
+             └─────────────────┼─────────────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │   Service Layer     │
+                    │   Cached Queries    │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │      SQLite DB      │
+                    │   104,785 genes     │
+                    └─────────────────────┘
+```
+
+### Technology stack
+
+* **Python 3.10+**
+* **Streamlit**
+* **SQLite**
+* **Pandas**
+* **Plotly**
+* **OpenPyXL**
+* Custom service and visualization modules
+
+The database layer is separated from the UI so additional annotation datasets and genotypes can be integrated without redesigning the application.
+
+---
+
+# 📁 Project Structure
+
+```text
+SorgGene/
+│
+├── app.py
+│
+├── database/
+│   └── annotation.db
+│
+├── services/
+│   ├── gene_service.py
+│   ├── links.py
+│   ├── region_parser.py
+│   ├── theme.py
+│   ├── tracks.py
+│   └── ui_helpers.py
+│
+├── tabs/
+│   ├── tab0_dashboard.py
+│   ├── tab1_gene_proximity.py
+│   ├── tab2_gene_info.py
+│   ├── tab3_cross_genotype.py
+│   └── tab4_gene_explorer.py
+│
+├── scripts/
+│   └── build_annotation_db.py
+│
+├── examples/
+│   ├── example_markers.csv
+│   └── example_gene_ids.txt
+│
+├── .streamlit/
+│   └── config.toml
+│
+├── setup_data.py
+├── requirements.txt
+├── CREDITS.md
+└── README.md
+```
+
+---
+
+# 🚀 Installation
+
+## Requirements
+
+* Python **3.10+**
+* Git
+
+### 1. Clone the repository
+
 ```bash
-# Windows
+git clone <https://github.com/Lalitgis/SorgGene.git>
+cd SorgGene
+```
+
+### 2. Create a virtual environment
+
+**Windows**
+
+```bash
 py -m venv .venv
 .venv\Scripts\activate
+```
 
-# Mac/Linux
+**macOS / Linux**
+
+```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-**3. Install dependencies**
+### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-**4. Verify setup**
+### 4. Verify the installation
+
 ```bash
 python setup_data.py
 ```
 
-**5. Run the app**
+### 5. Launch SorgGene
+
 ```bash
 streamlit run app.py
 ```
 
-The app will open automatically in your browser.
+The application will open in your default browser.
 
 ---
 
-## Rebuilding the database from source
+# 🧪 Example Workflows
 
-`database/annotation.db` is included pre-built, so you don't need to do this to run the app. To rebuild it (e.g. to add another genotype), download the relevant GFF3 file(s) from Sorghumbase's public FTP into `data/`, then run:
+## GWAS candidate-gene discovery
+
+```text
+GWAS signal
+    ↓
+Genomic interval
+    ↓
+SorgGene Region Search
+    ↓
+Annotated genes
+    ↓
+Gene IDs + coordinates
+    ↓
+Candidate-gene prioritization
+```
+
+## Gene ID conversion
+
+```text
+Sobic.001G000100
+        ↓
+SorgGene
+        ↓
+SORBI_3001G000100
+        ↓
+SorghumBase / Phytozome
+```
+
+## Multi-genotype exploration
+
+```text
+Genomic region
+       ↓
+ ┌─────┼─────┐
+ ↓     ↓     ↓
+BTx623 Tx2783 Rio
+ ↓     ↓     ↓
+Annotation comparison
+       ↓
+Candidate regions / genes
+```
+
+---
+
+# 🔧 Rebuilding & Extending the Database
+
+The repository contains a pre-built `annotation.db`, so rebuilding is **not required for normal use**.
+
+To add additional genotypes:
+
+### 1. Download the relevant GFF3
+
+Place the annotation file in:
+
+```text
+data/
+```
+
+### 2. Add the genotype to
+
+```text
+scripts/build_annotation_db.py
+```
+
+### 3. Rebuild
 
 ```bash
 python scripts/build_annotation_db.py
 ```
 
-Source files used for the included database, all from `https://ftp.sorghumbase.org/release-current/gff3/`:
-
-| Genotype | Source file | Assembly |
-|---|---|---|
-| BTx623 | `sorghum_bicolor/Sorghum_bicolor.Sorghum_bicolor_NCBIv3.gff3.gz` | Sorghum_bicolor_NCBIv3 (= Phytozome Sbicolor v3.1.1) |
-| Tx2783 | `sorghum_tx2783pac/Sorghum_tx2783pac.Sorghum_bicolor-Tx2783-Reference-CSHL-USDA-1.0.gff3.gz` | CSHL-USDA-1.0 |
-| Rio | `sorghum_rio/Sorghum_rio.JGI-v2.0.gff3.gz` | JGI-v2.0 |
-
-To add more genotypes, add an entry to `GFF3_FILES` in `scripts/build_annotation_db.py` and re-run it — Sorghumbase's FTP lists 100+ additional sorghum genotypes under `release-current/gff3/`.
+SorghumBase's current FTP release contains **100+ additional sorghum genotypes**, making the database architecture suitable for future pangenome expansion.
 
 ---
 
-## Example Input Files
+# 📦 Example Data
 
-Example input files for Tabs 1 and 2 are provided in the `examples/` folder:
+Example inputs are included in:
 
-- `examples/example_markers.csv` — for batch position input in Tab 1
-- `examples/example_gene_ids.txt` — for batch gene ID input in Tab 2
-
----
-
-## Project structure
-
-```
-app.py                     # page config, hero banner, sidebar, tab wiring
-services/
-  gene_service.py          # all SQLite queries (cached with @st.cache_data)
-  theme.py                 # validated color palette, chart chrome
-  ui_helpers.py             # CSS injection, stat cards, CSV/Excel export
-  links.py                  # SorghumBase / Phytozome URL builders
-  tracks.py                 # Plotly gene-track figure builders
-  region_parser.py          # parses pasted "Chr6:34,967,715..35,167,715"-style region strings
-tabs/
-  tab0_dashboard.py
-  tab1_gene_proximity.py
-  tab2_gene_info.py
-  tab3_cross_genotype.py
-  tab4_gene_explorer.py
-scripts/build_annotation_db.py
-database/annotation.db     # pre-built, checked into the repo
-.streamlit/config.toml     # Streamlit theme (colors, font)
+```text
+examples/
 ```
 
----
+### Batch marker search
 
-## Database Summary
+```text
+examples/example_markers.csv
+```
 
-| Database | Source | Size | Records |
-|---|---|---|---|
-| `annotation.db` | Sorghumbase (BTx623, Tx2783, Rio) | ~15 MB | 104,785 genes |
+### Batch gene ID lookup
 
----
+```text
+examples/example_gene_ids.txt
+```
 
-## Credits
-
-See [CREDITS.md](CREDITS.md) for full data attribution — Sorghumbase, Phytozome/JGI, and the reference genome publications.
-
----
-
-## License
-
-MIT License — free to use, modify, and distribute with attribution.
+These can be used to test the application immediately after installation.
 
 ---
 
-## Contact
+# 🔗 Related Project
 
-For questions, suggestions, or bug reports, please open an issue on GitHub.
+SorgGene is a sorghum-focused sibling project to **[WheatPost](https://github.com/neupanebpn63/WheatPost)**, adapting the same general philosophy of fast, researcher-friendly genomic lookup tools to the datasets and annotation resources available for *Sorghum bicolor*.
+
+The feature set has been adapted specifically to SorghumBase and Phytozome rather than attempting to reproduce wheat-specific functionality.
+
+---
+
+# 📚 Data Attribution
+
+SorgGene uses publicly available genome annotation resources from:
+
+* **SorghumBase**
+* **Phytozome / JGI**
+* Published *Sorghum bicolor* reference genome resources
+
+Please see [`CREDITS.md`](CREDITS.md) for complete data attribution, source files, publications, and data lineage.
+
+---
+
+# 🛣️ Roadmap
+
+Potential future development includes:
+
+* [ ] Support for additional SorghumBase genotypes
+* [ ] Expanded pangenome comparison
+* [ ] Gene-family exploration
+* [ ] Protein sequence lookup
+* [ ] Functional annotation integration
+* [ ] GO enrichment workflows
+* [ ] Ortholog/paralog exploration
+* [ ] REST/API access
+* [ ] Containerized deployment
+* [ ] Cloud-hosted version
+* [ ] Automated annotation database updates
+
+---
+
+# 🤝 Contributing
+
+Contributions, bug reports, feature requests, and improvements are welcome.
+
+Please open a GitHub issue or submit a pull request.
+
+If you use SorgGene in research, feedback on additional datasets, genotypes, and analysis workflows is especially welcome.
+
+---
+
+# 📄 License
+
+SorgGene is released under the **MIT License**.
+
+See [`LICENSE`](LICENSE) for details.
+
+---
+
+## SorgGene
+
+**Fast. Local. Reference-aware.**
+
+A practical bioinformatics toolkit for *Sorghum bicolor* gene annotation, genomic-region analysis, gene ID conversion, and multi-genotype exploration.
+
+**Keywords:** sorghum genomics · *Sorghum bicolor* · bioinformatics · plant genomics · gene annotation · SorghumBase · Phytozome · BTx623 · sorghum pangenomics · comparative genomics · GWAS · candidate gene discovery · genomic region search · gene ID conversion · genome annotation · Streamlit · Python
